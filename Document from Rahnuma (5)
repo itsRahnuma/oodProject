@@ -1,0 +1,25 @@
+package com.example.railwayreservation.model;
+
+public class Train {
+    private String name;
+    private String time;
+    private int passengerStrength;
+    private int trainNumber;
+
+    public Train(String name, String time, int passengerStrength, int trainNumber) {
+        this.name = name;
+        this.time = time;
+        this.passengerStrength = passengerStrength;
+        this.trainNumber = trainNumber;
+    }
+
+    public String getName() { return name; }
+    public String getTime() { return time; }
+    public int getPassengerStrength() { return passengerStrength; }
+    public int getTrainNumber() { return trainNumber; }
+
+    public void setName(String name) { this.name = name; }
+    public void setTime(String time) { this.time = time; }
+    public void setPassengerStrength(int passengerStrength) { this.passengerStrength = passengerStrength; }
+    public void setTrainNumber(int trainNumber) { this.trainNumber = trainNumber; }
+}

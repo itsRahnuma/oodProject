@@ -1,0 +1,59 @@
+package com.example.railwayreservation.service;
+
+import com.example.railwayreservation.model.Train;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+public class ReservationService {
+    private final List<Train> availableTrains = new ArrayList<>();
+    private final List<String> bookedSeats = new ArrayList<>();
+
+    public ReservationService() {
+        availableTrains.add(new Train("Dhaka - Chottogram", "13:05", 50, 1010));
+        availableTrains.add(new Train("Dhaka - Rongpur", "7:00", 50, 2013));
+        availableTrains.add(new Train("Rajshai - Dhaka", "10:00", 50, 3045));
+    }
+
+    public List<Train> getAvailableTrains() {
+        return availableTrains;
+    }
+
+    public String checkSeatAvailability(int trainNumber) {
+        for (Train train : availableTrains) {
+            if (train.getTrainNumber() == trainNumber) {
+                int availableSeats = train.getPassengerStrength() - bookedSeats.size();
+                return "Available seats on Train " + trainNumber + ": " + availableSeats;
+            }
+        }
+        return "Train not found.";
+    }
+
+    public String bookTicket(int trainNumber, String passengerName) {
+        for (Train train : availableTrains) {
+            if (train.getTrainNumber() == trainNumber) {
+                if (bookedSeats.size() < train.getPassengerStrength()) {
+                    bookedSeats.add(passengerName);
+                    return "Ticket booked successfully for " + passengerName;
+                } else {
+                    return "Sorry, the train is fully booked.";
+                }
+            }
+        }
+        return "Train not found.";
+    }
+
+    public String cancelTicket(String passengerName) {
+        if (bookedSeats.remove(passengerName)) {
+            return "Ticket canceled successfully for " + passengerName;
+        } else {
+            return "Passenger not found or no booking exists for this passenger.";
+        }
+    }
+
+    public List<String> getBookedSeats() {
+        return bookedSeats;
+    }
+}

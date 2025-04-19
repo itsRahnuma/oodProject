@@ -1,0 +1,41 @@
+package com.example.railwayreservation.controller;
+
+import com.example.railwayreservation.model.Train;
+import com.example.railwayreservation.service.ReservationService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api")
+public class ReservationController {
+
+    @Autowired
+    private ReservationService service;
+
+    @GetMapping("/trains")
+    public List<Train> getTrains() {
+        return service.getAvailableTrains();
+    }
+
+    @GetMapping("/trains/{trainNumber}/availability")
+    public String checkAvailability(@PathVariable int trainNumber) {
+        return service.checkSeatAvailability(trainNumber);
+    }
+
+    @PostMapping("/trains/{trainNumber}/book")
+    public String bookTicket(@PathVariable int trainNumber, @RequestParam String passengerName) {
+        return service.bookTicket(trainNumber, passengerName);
+    }
+
+    @DeleteMapping("/cancel")
+    public String cancelTicket(@RequestParam String passengerName) {
+        return service.cancelTicket(passengerName);
+    }
+
+    @GetMapping("/booked")
+    public List<String> getBookedTickets() {
+        return service.getBookedSeats();
+    }
+}
